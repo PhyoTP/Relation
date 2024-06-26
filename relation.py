@@ -27,20 +27,14 @@ class Relator:
     def __str__(self):
         return self.name
     
-    def print_relations(self):
-        print(f"{self.name}'s Relations:")
-        for i in self.relations:
-            print(i)
+    def relations_names(self):
+        return [str(i) for i in self.relations]
     
-    def print_children(self):
-        print(f"{self.name}'s Children:")
-        for i in self.children:
-            print(i)
+    def children_names(self):
+        return [str(i) for i in self.children]
     
-    def print_parents(self):
-        print(f"{self.name}'s Parents:")
-        for i in self.parents:
-            print(i)
+    def parents_names(self):
+        return [str(i) for i in self.parents]
 
 def is_relator(cls):
     class_type = type(cls)
@@ -61,31 +55,3 @@ def type_is_relator(class_type):
     for base in class_type.__bases__:
         if type_is_relator(base):
             return True
-
-# Testing
-class Person(Relator):
-    def __init__(self, name, age):
-        super().__init__(name)
-        self.age = age
-
-class Group(Relator):
-    def __init__(self, name, desc):
-        super().__init__(name)
-        self.desc = desc
-user = Person("Tim", 17)
-friend = Person("Maddie", 16)
-groupmate = Person("Jake", 23)
-coding_club = Group("Coding Club","a club for coding")
-
-user + friend
-user.print_children()
-print("a")
-friend + user
-user.print_relations()
-friend.print_relations()
-print(user.children_count)
-print(user.relations_count)
-coding_club + user
-coding_club + groupmate
-coding_club.print_children()
-print(coding_club.children_count)
