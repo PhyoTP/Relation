@@ -4,18 +4,25 @@ class Relator:
         self.relations = relations if relations is not None else []
         self.children = children if children is not None else []
         self.parents = parents if parents is not None else []
+        self.relations_count = len(self.relations)
+        self.children_count = len(self.children)
+        self.parents_count = len(self.parents)
     
     def __mul__(self, other):
         if other not in self.relations:
             self.relations.append(other)
+            self.relations_count += 1
         if self not in other.relations:
             other.relations.append(self)
+            other.relations_count += 1
     
     def __add__(self, other):
         if other not in self.children:
             self.children.append(other)
+            self.children_count += 1
         if self not in other.parents:
             other.parents.append(self)
+            other.parents_count += 1
     
     def __str__(self):
         return self.name
@@ -60,53 +67,25 @@ class Person(Relator):
     def __init__(self, name, age):
         super().__init__(name)
         self.age = age
-        self.calculate_followers()
-    
-    def calculate_followers(self):
-        self.followers = len(self.children)
-    
-    def calculate_friends(self):
-        for child in self.children:
-            if self in child.children:
-                self * child
-                child * self
-    
-    def __add__(self, other):
-        re = super().__add__(other)
-        self.calculate_followers()
-        other.calculate_followers()
-        self.calculate_friends()
-        other.calculate_friends()
-        return re
-    
-    def __mul__(self, other):
-        re = super().__mul__(other)
-        return re
 
 class Group(Relator):
-    def __init__(self, name):
+    def __init__(self, name, desc):
         super().__init__(name)
-        self.calculate_members()
-    
-    def calculate_members(self):
-        self.members = len(self.children)
-    
-    def __add__(self, other):
-        re = super().__add__(other)
-        self.calculate_members()
-        return re
-
+        self.desc = desc
 user = Person("Tim", 17)
 friend = Person("Maddie", 16)
 groupmate = Person("Jake", 23)
-coding_club = Group("Coding Club")
+coding_club = Group("Coding Club","a club for coding")
 
-user+friend
+user + friend
 user.print_children()
-friend+user
+print("a")
+friend + user
 user.print_relations()
 friend.print_relations()
-coding_club+user
-coding_club+groupmate
+print(user.children_count)
+print(user.relations_count)
+coding_club + user
+coding_club + groupmate
 coding_club.print_children()
-print(coding_club.members)
+print(coding_club.children_count)
