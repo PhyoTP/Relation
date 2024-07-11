@@ -1,15 +1,15 @@
-import relation as r
+from relation import Relator 
 
-class Person(r.Relator):
+class Person(Relator):
     def __init__(self, name, age):
         super().__init__(name)
         self.age = age
     def __add__(self, other):
         super().__add__(other)
         if self in other.children:
-            self*other
+            self*=other
         
-class Group(r.Relator):
+class Group(Relator):
     def __init__(self, name, desc):
         super().__init__(name)
         self.desc = desc

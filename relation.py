@@ -17,13 +17,18 @@ class Relator:
             other.relations_count += 1
     
     def __add__(self, other):
-        if other not in self.children:
-            self.children.append(other)
-            self.children_count += 1
-        if self not in other.parents:
-            other.parents.append(self)
-            other.parents_count += 1
-    
+        if not isinstance(other,type([])):
+            yes = [other]
+        else:
+            yes = other
+        for i in yes:
+            if i not in self.children:
+                self.children.append(i)
+                self.children_count += 1
+            if self not in i.parents:
+                i.parents.append(self)
+                i.parents_count += 1
+        
     def __str__(self):
         return self.name
     
@@ -36,22 +41,25 @@ class Relator:
     def parents_names(self):
         return [str(i) for i in self.parents]
 
-def is_relator(cls):
-    class_type = type(cls)
-    if class_type is Relator:
-        return True
-    if Relator in class_type.__bases__:
-        return True
-    for base in class_type.__bases__:
-        if type_is_relator(base):
-            return True
-    return False
 
-def type_is_relator(class_type):
-    if class_type is Relator:
-        return True
-    if Relator in class_type.__bases__:
-        return True
-    for base in class_type.__bases__:
-        if type_is_relator(base):
-            return True
+# deprecated, use issubclass(obj, Relator) instead
+
+# def is_relator(cls):
+#     class_type = type(cls)
+#     if class_type is Relator:
+#         return True
+#     if Relator in class_type.__bases__:
+#         return True
+#     for base in class_type.__bases__:
+#         if type_is_relator(base):
+#             return True
+#     return False
+
+# def type_is_relator(class_type):
+#     if class_type is Relator:
+#         return True
+#     if Relator in class_type.__bases__:
+#         return True
+#     for base in class_type.__bases__:
+#         if type_is_relator(base):
+#             return True
