@@ -49,5 +49,9 @@ for row in data:
   for i in ABCHS.children_is_type(Classroom):
     if row[4]==i.name:
       i+Student(row[1],row[2],row[3])
-  #tbc
+  for i in ABCHS.children_is_type(CCA):
+    if row[5]==i.name:
+      i+Student(row[1],row[2],row[3])
 con.close()
+print("All Students:", ABCHS.children_is_type_names(Student))
+print("2.01 Students:", ABCHS.children[3].children_names())
