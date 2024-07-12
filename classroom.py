@@ -3,15 +3,7 @@ import sqlite3
 
 con=sqlite3.connect("studentdb.db")
 cur=con.cursor()
-cur.execute('''create table if not exists students(
-studentID integer primary key,
-name varchar(100), 
-age integer,
-gender varchar(100),
-classroom varchar(20),
-cca varchar(100))''')
-insertSQL = "INSERT INTO students values(%s,%s,%s,%s,%s,%s)"
-con.commit()
+
 class Student(Relator):
   def __init__(self, name, age, gender):
     super().__init__(name)
@@ -31,9 +23,31 @@ class CCA(Relator):
     self.genre = genre
 
 ABCHS=School("ABC High School", "High School")
-ABCHS+[Classroom("1.01",1),Classroom("1.02",1),Classroom("1.03",1),Classroom("2.01",2),Classroom("2.02",2),Classroom("2.03",2)]
-print("Classes:", ABCHS.children_names())
+ABCHS+[
+  Classroom("1.01",1),
+  Classroom("1.02",1),
+  Classroom("1.03",1),
+  Classroom("2.01",2),
+  Classroom("2.02",2),
+  Classroom("2.03",2)
+]
+ABCHS+[
+  CCA("Band", "Performing Arts"),
+  CCA("Chess Club", "Clubs"),
+  CCA("Football", "Sports"),
+  CCA("Basketball", "Sports"),
+  CCA("Robotics Club", "Clubs"),
+  CCA("Girl Scouts","Uniform Groups")
+]
+print("Classes:", ABCHS.children_is_type_names(Classroom))
+print("CCAs:", ABCHS.children_is_type_names(CCA))
 
-for d in cur:
-  print(d)
+cur.execute('SELECT * FROM studenttable')
+data=cur.fetchall()
+for row in data:
+  ABCHS+Student(row[1],row[2],row[3])
+  for i in ABCHS.children_is_type(Classroom):
+    if row[4]==i.name:
+      i+Student(row[1],row[2],row[3])
+  #tbc
 con.close()

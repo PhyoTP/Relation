@@ -40,6 +40,21 @@ class Relator:
     
     def parents_names(self):
         return [str(i) for i in self.parents]
+    def relation_is_type_names(self, type):
+        return [str(i) for i in self.relations if isinstance(i,type)]
+    def children_is_type_names(self, type):
+        return [str(i) for i in self.children if isinstance(i,type)]
+    def parents_is_type_names(self, type):
+        return [str(i) for i in self.parents if isinstance(i,type)]
+    def relation_is_type(self, type):
+        return [i for i in self.relations if isinstance(i,type)]
+    def children_is_type(self, type):
+        return [i for i in self.children if isinstance(i,type)]
+    def parents_is_type(self, type):
+        return [i for i in self.parents if isinstance(i,type)]
+        
+
+
 
 
 # deprecated, use issubclass(obj, Relator) instead
