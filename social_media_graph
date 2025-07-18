@@ -1,0 +1,20 @@
+digraph {
+	"High School Coding Club"
+	Tim
+	"High School Coding Club" -> Tim
+	Tim
+	Min
+	Tim -> Min
+	Min
+	Tim
+	Min -> Tim
+	Tim
+	Tim
+	Min
+	Min
+	"High School Coding Club"
+	Maddie
+	"High School Coding Club" -> Maddie
+	Maddie
+	"High School Coding Club"
+}

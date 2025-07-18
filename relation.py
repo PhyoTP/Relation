@@ -4,17 +4,12 @@ class Relator:
         self.relations = relations if relations is not None else []
         self.children = children if children is not None else []
         self.parents = parents if parents is not None else []
-        self.relations_count = len(self.relations)
-        self.children_count = len(self.children)
-        self.parents_count = len(self.parents)
     
     def __mul__(self, other):
         if other not in self.relations:
             self.relations.append(other)
-            self.relations_count += 1
         if self not in other.relations:
             other.relations.append(self)
-            other.relations_count += 1
     
     def __add__(self, other):
         if not isinstance(other,type([])):
@@ -24,10 +19,23 @@ class Relator:
         for i in yes:
             if i not in self.children:
                 self.children.append(i)
-                self.children_count += 1
             if self not in i.parents:
                 i.parents.append(self)
-                i.parents_count += 1
+
+    def __ior__(self, other):
+        self.children += other.children
+        self.relations += other.relations
+        self.parents += other.parents
+        return self
+    
+    def __or__(self, other):
+        self.children += other.children
+        self.relations += other.relations
+        self.parents += other.parents
+        other.children += self.children
+        other.relations += self.relations
+        other.parents += self.parents
+
         
     def __str__(self):
         return self.name
@@ -53,10 +61,6 @@ class Relator:
     def parents_is_type(self, type):
         return [i for i in self.parents if isinstance(i,type)]
         
-
-
-
-
 # deprecated, use issubclass(obj, Relator) instead
 
 # def is_relator(cls):

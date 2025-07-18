@@ -33,8 +33,8 @@ print("User's friends:", user.relations_names())
 print("Friend's friends:", friend.relations_names())
 
 # Printing counts
-print("User's follower count:", user.children_count)
-print("User's friends count:", user.relations_count)
+print("User's follower count:", len(user.children))
+print("User's friends count:", len(user.relations))
 
 # Adding user and groupmate to the coding club
 coding_club + user
@@ -42,4 +42,6 @@ coding_club + groupmate
 
 # Printing children names of the coding club
 print("Coding Club's members:", coding_club.children_names())
-print("Coding Club's member count:", coding_club.children_count)
+print("Coding Club's member count:", len(coding_club.children))
+
+
