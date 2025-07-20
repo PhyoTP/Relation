@@ -1,5 +1,5 @@
 from relation import Relator
-from map import create_graph
+from relation.map import create_graph
 topics = {}
 
 class Topic(Relator):
@@ -24,9 +24,9 @@ Topic.get("Proteins") * Description("made of", children=[Topic.get("Polypeptides
 Topic.get("Polypeptides") * Description("made of", children=[Topic.get("Amino Acids")])
 Topic.get("Polypeptides") * Description("linked by", children=[Topic.get("Peptide Bonds")])
 
-g = create_graph(bioMolecules)  # Create and visualize the graph
+g = create_graph(Topic.get("Proteins"), ancestors=False)  # Create and visualize the graph
 g.render('bionotes_graph', format='png', view=True)
-print()
+
 
 
 
