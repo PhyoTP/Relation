@@ -18,13 +18,36 @@ class Topic(Relator):
 class Description(Relator):
     pass
 
-bioMolecules = Topic.get("Biological Molecules") 
-bioMolecules * Description("Types", children=[Topic.get("Proteins"), Topic.get("Nucleic Acids"), Topic.get("Carbohydrates"), Topic.get("Lipids")])
-Topic.get("Proteins") * Description("made of", children=[Topic.get("Polypeptides")])
-Topic.get("Polypeptides") * Description("made of", children=[Topic.get("Amino Acids")])
-Topic.get("Polypeptides") * Description("linked by", children=[Topic.get("Peptide Bonds")])
+def convert_topic(str):
+    sentences = str.splitlines()
+    for sentence in sentences:
+        parts = sentence.split(",")
+        if len(parts) == 2:
+            Topic.get(parts[0].strip()) * Description(parts[1].strip())
+        elif len(parts) > 2:
+            Topic.get(parts[0].strip()) * Description(parts[1].strip(), children=[Topic.get(part.strip()) for part in parts[2:]])
+        
 
-g = create_graph(Topic.get("Proteins"), ancestors=False)  # Create and visualize the graph
+bioMolecules = Topic.get("Biological Molecules") 
+convert_topic("""
+Biological Molecules, types, Proteins, Nucleic Acids, Carbohydrates, Lipids
+Proteins, made of, Polypeptides
+Polypeptides, made of, Amino Acids
+Amino Acids, link together by, Peptide Bonds
+Carbohydrates, types, Monosaccharides, Disaccharides, Polysaccharides
+Monosaccharides, examples, Glucose, Fructose, Galactose
+Disaccharides, examples, Sucrose, Lactose, Maltose
+Polysaccharides, examples, Starch, Glycogen, Cellulose
+Monosaccharides, link together by, Glycosidic Bonds
+Disaccharides, made of, Monosaccharides
+Polysaccharides, made of, Monosaccharides
+Monosaccharides, single
+Disaccharides, double
+Polysaccharides, complex
+Carbohydrates, short-term energy
+Carbohydrates, breaks down to, Carbon, Hydrogen, Oxygen
+""")
+g = create_graph(Topic.get("Carbohydrates"), ancestors=False)  # Create and visualize the graph
 g.render('bionotes_graph', format='png', view=True)
 
 
