@@ -1,0 +1,14 @@
+digraph {
+	136563187983872 [label=Proteins]
+	136563187981664 [label="Biological Molecules"]
+	136563187981664 -> 136563187983872
+	136563187981664 [label="Biological Molecules"]
+	136563187983872 [label=Proteins]
+	136563187980848 [label="made of"]
+	136563187983872 -> 136563187980848 [arrowhead=none style=dashed]
+	136563187980848 [label="made of"]
+	136563184988336 [label=Polypeptides]
+	136563187980848 -> 136563184988336
+	136563184988336 [label=Polypeptides]
+	136563187983872 [label=Proteins]
+}

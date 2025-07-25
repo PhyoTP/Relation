@@ -8,7 +8,7 @@ class Relator:
     def __mul__(self, other):
         if other not in self.relations:
             self.relations.append(other)
-        if self not in other.relations:
+        if isinstance(other, Relator) and self not in other.relations:
             other.relations.append(self)
     
     def __add__(self, other):
@@ -19,8 +19,18 @@ class Relator:
         for i in yes:
             if i not in self.children:
                 self.children.append(i)
-            if self not in i.parents:
+            if isinstance(i, Relator) and self not in i.parents:
                 i.parents.append(self)
+    def __radd__(self, other):
+        if not isinstance(other,type([])):
+            yes = [other]
+        else:
+            yes = other
+        for i in yes:
+            if i not in self.parents:
+                self.parents.append(i)
+            if isinstance(i, Relator) and self not in i.children:
+                i.children.append(self)
 
     def __ior__(self, other):
         self.children += other.children

@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "134566486268272", "label": "Biological Molecules", "shape": "box"}, {"color": "#97c2fc", "id": "134566486271824", "label": "Proteins", "shape": "box"}, {"color": "#97c2fc", "id": "134566486271776", "label": "made of", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566486272400", "label": "Polypeptides", "shape": "box"}, {"color": "#97c2fc", "id": "134566446971744", "label": "made of", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447174176", "label": "Amino Acids", "shape": "box"}, {"color": "#97c2fc", "id": "134566447175616", "label": "link together by", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447174848", "label": "Peptide Bonds", "shape": "box"}, {"color": "#97c2fc", "id": "134566486271920", "label": "Nucleic Acids", "shape": "box"}, {"color": "#97c2fc", "id": "134566486271968", "label": "Carbohydrates", "shape": "box"}, {"color": "#97c2fc", "id": "134566447175760", "label": "Monosaccharides", "shape": "box"}, {"color": "#97c2fc", "id": "134566447175952", "label": "Glucose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176000", "label": "Fructose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176048", "label": "Galactose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176384", "label": "link together by", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447176720", "label": "Glycosidic Bonds", "shape": "box"}, {"color": "#97c2fc", "id": "134566447177104", "label": "single", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447175808", "label": "Disaccharides", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176144", "label": "Sucrose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176240", "label": "Lactose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176336", "label": "Maltose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176864", "label": "made of", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447177200", "label": "double", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447175856", "label": "Polysaccharides", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176432", "label": "Starch", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176528", "label": "Glycogen", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176624", "label": "Cellulose", "shape": "box"}, {"color": "#97c2fc", "id": "134566447176960", "label": "made of", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447177248", "label": "complex", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447177296", "label": "short-term energy", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447177392", "label": "breaks down to", "shape": "ellipse"}, {"color": "#97c2fc", "id": "134566447177488", "label": "Carbon", "shape": "box"}, {"color": "#97c2fc", "id": "134566447177584", "label": "Hydrogen", "shape": "box"}, {"color": "#97c2fc", "id": "134566447177728", "label": "Oxygen", "shape": "box"}, {"color": "#97c2fc", "id": "134566486272112", "label": "Lipids", "shape": "box"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "134566486268272", "to": "134566486271824"}, {"arrows": "", "dashes": true, "from": "134566486271824", "to": "134566486271776"}, {"arrows": "to", "from": "134566486271776", "to": "134566486272400"}, {"arrows": "", "dashes": true, "from": "134566486272400", "to": "134566446971744"}, {"arrows": "to", "from": "134566446971744", "to": "134566447174176"}, {"arrows": "", "dashes": true, "from": "134566447174176", "to": "134566447175616"}, {"arrows": "to", "from": "134566447175616", "to": "134566447174848"}, {"arrows": "to", "from": "134566486268272", "to": "134566486271920"}, {"arrows": "to", "from": "134566486268272", "to": "134566486271968"}, {"arrows": "to", "from": "134566486271968", "to": "134566447175760"}, {"arrows": "to", "from": "134566447175760", "to": "134566447175952"}, {"arrows": "to", "from": "134566447175760", "to": "134566447176000"}, {"arrows": "to", "from": "134566447175760", "to": "134566447176048"}, {"arrows": "", "dashes": true, "from": "134566447175760", "to": "134566447176384"}, {"arrows": "to", "from": "134566447176384", "to": "134566447176720"}, {"arrows": "", "dashes": true, "from": "134566447175760", "to": "134566447177104"}, {"arrows": "to", "from": "134566486271968", "to": "134566447175808"}, {"arrows": "to", "from": "134566447175808", "to": "134566447176144"}, {"arrows": "to", "from": "134566447175808", "to": "134566447176240"}, {"arrows": "to", "from": "134566447175808", "to": "134566447176336"}, {"arrows": "", "dashes": true, "from": "134566447175808", "to": "134566447176864"}, {"arrows": "to", "from": "134566447176864", "to": "134566447175760"}, {"arrows": "", "dashes": true, "from": "134566447175808", "to": "134566447177200"}, {"arrows": "to", "from": "134566486271968", "to": "134566447175856"}, {"arrows": "to", "from": "134566447175856", "to": "134566447176432"}, {"arrows": "to", "from": "134566447175856", "to": "134566447176528"}, {"arrows": "to", "from": "134566447175856", "to": "134566447176624"}, {"arrows": "", "dashes": true, "from": "134566447175856", "to": "134566447176960"}, {"arrows": "to", "from": "134566447176960", "to": "134566447175760"}, {"arrows": "", "dashes": true, "from": "134566447175856", "to": "134566447177248"}, {"arrows": "", "dashes": true, "from": "134566486271968", "to": "134566447177296"}, {"arrows": "", "dashes": true, "from": "134566486271968", "to": "134566447177392"}, {"arrows": "to", "from": "134566447177392", "to": "134566447177488"}, {"arrows": "to", "from": "134566447177392", "to": "134566447177584"}, {"arrows": "to", "from": "134566447177392", "to": "134566447177728"}, {"arrows": "to", "from": "134566486268272", "to": "134566486272112"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
